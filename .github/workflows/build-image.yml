@@ -1,0 +1,31 @@
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Image tag to build from and publish to.
+        required: true
+        type: string
+        default: latest
+
+jobs:
+  build-image:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Make Dockerfile
+        run: make -- TAG=${{ inputs.tag }}
+      - name: Access GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and push
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: Dockerfile.${{ inputs.tag }}
+          push: true
+          tags: "ghcr.io/${{ github.repository_owner }}/\
+            docker-fourmolu:${{ inputs.tag }}"
