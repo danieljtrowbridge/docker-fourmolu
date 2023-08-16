@@ -3,11 +3,15 @@ name: Build docker-fourmolu image
 on:
   workflow_dispatch:
     inputs:
-      tag:
-        description: Image tag to build from and publish to.
+      haskell_tag:
+        description: Image tag to build from.
         required: true
         type: string
         default: latest
+      tag:
+        description: Image tag to publish to.
+        required: false
+        type: string
       version:
         description: Fourmolu version to build.
         required: true
@@ -16,12 +20,13 @@ on:
 
 jobs:
   build-image:
+    name: Build image
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Make Dockerfile
-        run: make -- TAG=${{ inputs.tag }} VERSION=${{ inputs.version }}
+        run: make -- TAG=${{ inputs.haskell_tag }} VERSION=${{ inputs.version }}
       - name: Access GitHub Container Registry
         uses: docker/login-action@v2
         with:
@@ -32,7 +37,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
-          file: Dockerfile.${{ inputs.tag }}
+          file: Dockerfile.${{ inputs.haskell_tag }}
           push: true
           tags: "ghcr.io/${{ github.repository_owner }}/\
-            docker-fourmolu:${{ inputs.tag }}"
+            docker-fourmolu:${{ inputs.tag || inputs.haskell_tag }}"
