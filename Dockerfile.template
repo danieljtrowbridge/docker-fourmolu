@@ -1,0 +1,8 @@
+FROM haskell:TAG AS build
+RUN cabal update && cabal install fourmolu-VERSION
+RUN cp -L /root/.cabal/bin/fourmolu /root/fourmolu
+
+FROM debian:latest
+COPY --from=build /root/fourmolu /bin/fourmolu
+ENTRYPOINT ["fourmolu"]
+CMD ["--mode", "check"]
