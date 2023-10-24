@@ -4,5 +4,6 @@ RUN cp -L /root/.cabal/bin/fourmolu /root/fourmolu
 
 FROM debian:latest
 COPY --from=build /root/fourmolu /bin/fourmolu
+RUN apt-get update && apt-get install -y git
 ENTRYPOINT ["fourmolu"]
 CMD ["--mode", "check"]
