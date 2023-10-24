@@ -1,0 +1,12 @@
+---
+
+name: Build docker-fourmolu:latest
+
+on:
+  schedule:
+    - cron: "15 23 * * 2"
+
+jobs:
+  build:
+    name: Build docker-fourmolu:latest
+    uses: danieljtrowbridge/docker-fourmolu/.github/workflows/build.yaml@main

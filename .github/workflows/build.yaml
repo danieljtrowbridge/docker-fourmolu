@@ -1,6 +1,22 @@
+---
+
 name: Build docker-fourmolu image
 
 on:
+  workflow_call:
+    inputs:
+      haskell_tag:
+        default: latest
+        required: false
+        type: string
+      tag:
+        default: latest
+        required: false
+        type: string
+      version:
+        default: 0.14.0.0
+        required: false
+        type: string
   workflow_dispatch:
     inputs:
       haskell_tag:
@@ -16,7 +32,7 @@ on:
         description: Fourmolu version to build.
         required: true
         type: string
-        default: "0.13.1.0"
+        default: 0.14.0.0
 
 jobs:
   build-image:
