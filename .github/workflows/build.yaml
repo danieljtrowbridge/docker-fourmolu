@@ -44,7 +44,7 @@ jobs:
       - name: Make Dockerfile
         run: make -- TAG=${{ inputs.haskell_tag }} VERSION=${{ inputs.version }}
       - name: Access GitHub Container Registry
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
