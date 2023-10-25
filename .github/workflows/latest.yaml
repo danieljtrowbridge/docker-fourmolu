@@ -3,6 +3,9 @@
 name: Build docker-fourmolu:latest
 
 on:
+  push:
+    branches:
+      - main
   schedule:
     - cron: "15 23 * * 2"
 
