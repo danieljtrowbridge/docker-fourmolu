@@ -14,25 +14,25 @@ on:
         required: false
         type: string
       version:
-        default: 0.14.0.0
+        default: 0.15.0.0
         required: false
         type: string
   workflow_dispatch:
     inputs:
       haskell_tag:
+        default: latest
         description: Image tag to build from.
         required: true
         type: string
-        default: latest
       tag:
         description: Image tag to publish to.
         required: false
         type: string
       version:
+        default: 0.15.0.0
         description: Fourmolu version to build.
         required: true
         type: string
-        default: 0.14.0.0
 
 jobs:
   build-image:
